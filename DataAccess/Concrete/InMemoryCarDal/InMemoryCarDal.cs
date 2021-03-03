@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace DataAccess.Concrete.InMemoryCarDal
@@ -32,9 +33,15 @@ namespace DataAccess.Concrete.InMemoryCarDal
             _cars.Remove(CarToDelete);
         }
 
-        public List<Car> GetAll()
+        public List<Car> Get(Expression<Func<Car, bool>> filter)
         {
-            return _cars;
+            throw new NotImplementedException();
+        }
+
+       
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Car> GetById(int carId)
