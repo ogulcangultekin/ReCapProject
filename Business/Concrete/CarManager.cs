@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramewok.Context;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -23,16 +24,18 @@ namespace Business.Concrete
             {
                 _carDal.Add(car);
             }
-            else
-            {
-                
-            }
+           
             
         }
 
         public void Delete(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Delete(car);
+        }
+
+        public Car Get(int id)
+        {
+            return _carDal.Get(p=>p.CarId==id);
         }
 
         public List<Car> GetAll()
@@ -40,9 +43,14 @@ namespace Business.Concrete
             return _carDal.GetAll();
         }
 
+        public List<CarDetailDto> GetCarDetails()
+        {
+            return _carDal.GetCarDetails();
+        }
+
         public void Update(Car car)
         {
-            throw new NotImplementedException();
+            _carDal.Update(car);
         }
 
         
