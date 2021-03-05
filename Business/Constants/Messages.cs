@@ -12,5 +12,9 @@ namespace Business.Constants
         internal static string ProductsListed = "Ürünler listelendi";
         internal static string ProductDeleted = "Ürün silindi";
         internal static string ProductUptated = "Ürün güncellendi";
+        internal static string UserAdded="Kullanıcı eklendi";
+        internal static string UserDeleted="Kullanıcı silindi";
+        internal static string UserListed="Kullanici listelendi";
+        internal static string UserUpdated="Kullanici güncellendi";
     }
 }

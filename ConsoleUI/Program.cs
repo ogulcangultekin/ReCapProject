@@ -11,13 +11,75 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarAddTest();
+            GetRentalDetailsTest();
+            //RentalAddTest();
+            //UserAddTest();
+            //CustomerAddTest();
+
+            //CarAddTest();
             //CarDeleteTest();
             //CarUpdateTest();
             //CarGetIdTest();
             //CarGetAllTest();
             //CarGetDetails();
 
+        }
+
+        private static void GetRentalDetailsTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            foreach (var rental in rentalManager.GetRentalDetails().Data)
+            {
+                Console.WriteLine(rental.CarId + "---" + rental.CarName + "---" + rental.BrandName + "---" + rental.CustomerName + rental.RentDate + "---" + rental.ReturnDate);
+            }
+        }
+
+        private static void RentalAddTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            Rental rental = new Rental()
+            {
+                CarId = 3,
+                CustomerId = 1,
+                RentDate = DateTime.Now,
+                ReturnDate = DateTime.Now
+            };
+            var result = rentalManager.Add(rental);
+            if (result.Success == false)
+            {
+                Console.WriteLine(result.Message);
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+
+        private static void UserAddTest()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            User user = new User()
+            {
+                FirstName = "Abuzittin",
+                LastName = "TersGetirenOgullari",
+                Email = "abuzittinTGO@gmail.com",
+                Password = "123456"
+            };
+            var result = userManager.Add(user);
+            Console.WriteLine(result.Message);
+        }
+
+        private static void CustomerAddTest()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            Customer customer = new Customer()
+            {
+                UserId = 1,
+                CompanyName = "Vakvak Holding"
+            };
+
+            var result1 = customerManager.Add(customer);
+            Console.WriteLine(result1.Message);
         }
 
         private static void CarGetDetails()
