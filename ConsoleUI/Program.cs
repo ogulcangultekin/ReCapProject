@@ -11,19 +11,19 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //CarAddTest();
+            CarAddTest();
             //CarDeleteTest();
             //CarUpdateTest();
             //CarGetIdTest();
             //CarGetAllTest();
-            CarGetDetails();
+            //CarGetDetails();
 
         }
 
         private static void CarGetDetails()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            foreach (var car in carManager.GetCarDetails())
+            foreach (var car in carManager.GetCarDetails().Data)
             {
                 Console.WriteLine(car.CarId + "---" + car.CarName + "---" + car.BrandName + "---" + car.ColorName + "---" + car.DailyPrice);
             }
@@ -32,7 +32,7 @@ namespace ConsoleUI
         private static void CarGetIdTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            Car car = carManager.Get(4);
+            Car car = carManager.Get(4).Data;
             Console.WriteLine(car.Name);
         }
 
@@ -70,7 +70,7 @@ namespace ConsoleUI
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
-            foreach (var cars in carManager.GetAll())
+            foreach (var cars in carManager.GetAll().Data)
             {
                 Console.WriteLine(cars.Name);
             }
@@ -78,7 +78,7 @@ namespace ConsoleUI
             Console.WriteLine("------");
         }
 
-        private static CarManager CarAddTest()
+        private static void CarAddTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
 
@@ -89,13 +89,21 @@ namespace ConsoleUI
                 BrandId = 1,
                 Name = "Mercedes",
                 ModelYear = 1995,
-                DailyPrice = 25,
-                Description = "Aksaray"
+                DailyPrice = -1,
+                Description = "Canavar"
 
 
             };
-            carManager.Add(car);
-            return carManager;
+            var result = carManager.Add(car);
+            
+            if (result.Success==false)
+            {
+                Console.WriteLine(result.Message);
+            }
+            
+         
+
+           
         }
     }
 }
