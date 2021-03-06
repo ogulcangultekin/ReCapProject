@@ -23,22 +23,24 @@ namespace Business.Concrete
 
         public IResult Delete(Customer customer)
         {
-            throw new NotImplementedException();
+            _customerDal.Delete(customer);
+            return new SuccessResult("Müşteri Silindi.");
         }
 
         public IDataResult<Customer> Get(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Customer>(_customerDal.Get(u => u.Id == id), "Müşteri listelendi");
         }
 
         public IDataResult<List<Customer>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
-        public IResult Update(Customer customers)
+        public IResult Update(Customer customer)
         {
-            throw new NotImplementedException();
+            _customerDal.Update(customer);
+            return new SuccessResult("Müşteri Güncellendi.");
         }
     }
 }
