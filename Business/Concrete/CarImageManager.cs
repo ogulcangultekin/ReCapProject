@@ -47,9 +47,14 @@ namespace Business.Concrete
             throw new NotImplementedException();
         }
 
-        public IDataResult<List<CarImage>> GetAll()
+        public IDataResult<List<CarImage>> GetAll(int carId)
         {
-            throw new NotImplementedException();
+            var result = _carImageDal.GetAll(x => x.CarId == carId);
+            if (result.Count == 0)
+            {
+                result.Add(new CarImage { CarId = carId, ImagePath = "CarLogo.png" });
+            }
+            return new SuccessDataResult<List<CarImage>>(result);
         }
 
         private IResult CheckIfCarImageLimitExceded(int carId)
@@ -61,5 +66,7 @@ namespace Business.Concrete
             }
             return new SuccessResult();
         }
+
+        
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,17 +12,19 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class CarImagesController : ControllerBase
     {
         ICarImageService _carImageService;
+        protected readonly string imageDirectory = @"wwwroot\images";
         public CarImagesController(ICarImageService carImageService)
         {
             _carImageService = carImageService;
         }
         [HttpGet("getall")]
-        public IActionResult GetAll()
+        public IActionResult GetAll(int carId)
         {
-            var result = _carImageService.GetAll();
+            var result = _carImageService.GetAll(carId);
             if (result.Success == true)
             {
                 return Ok(result);
@@ -46,32 +49,62 @@ namespace WebAPI.Controllers
             }
 
         }
-       
+
         [HttpPost("add")]
-        public IActionResult Add(CarImage carImage)
+        public IActionResult Add([FromForm]int carId,[FromForm]IFormFile imageFile)
         {
-            var result = _carImageService.Add(carImage);
-            if (result.Success == true)
+            try
             {
-                return Ok(result);
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), imageDirectory, fileName);
+
+
+                    var result = _carImageService.Add(new CarImage() {CarId=carId, ImagePath = fileName });
+                    if (result.Success)
+                    {
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            imageFile.CopyTo(fileStream);
+                        }
+
+                        return Ok(result);
+                    }
+
+                    return BadRequest(result);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return BadRequest(result);
+                return BadRequest(ex.Message);
             }
+
+            return BadRequest();
         }
         [HttpPost("update")]
-        public IActionResult Update(CarImage carImage)
+        public IActionResult Update(int id, int carId, IFormFile imageFile)
         {
-            var result = _carImageService.Update(carImage);
-            if (result.Success == true)
+            if (imageFile != null && imageFile.Length > 0)
             {
-                return Ok(result);
-            }
-            else
-            {
+                var image = _carImageService.GetAll(carId).Data.Where(x => x.Id == id).FirstOrDefault();
+
+                string fileName = image.ImagePath;
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), imageDirectory, fileName);
+                System.IO.File.Delete(filePath);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(fileStream);
+                }
+
+                image.Date = DateTime.Now;
+                var result = _carImageService.Update(image);
+                if (result.Success)
+                    return Ok(result);
                 return BadRequest(result);
             }
+
+            return BadRequest();
         }
         [HttpPost("delete")]
         public IActionResult Delete(CarImage carImage)
