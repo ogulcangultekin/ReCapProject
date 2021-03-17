@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramewok;
 using DataAccess.Concrete.EntityFramewok.Context;
 using DataAccess.Concrete.InMemoryCarDal;
@@ -63,7 +64,7 @@ namespace ConsoleUI
                 FirstName = "Abuzittin",
                 LastName = "TersGetirenOgullari",
                 Email = "abuzittinTGO@gmail.com",
-                Password = "123456"
+                //PasswordHash = "123456"
             };
             var result = userManager.Add(user);
             Console.WriteLine(result.Message);

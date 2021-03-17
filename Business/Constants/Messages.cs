@@ -24,5 +24,12 @@ namespace Business.Constants
         internal static string ColorDeleted="Renk silindi";
         internal static string ColorUpdated="Renk Güncellendi";
         internal static string ColorListed = "Renk göre arabalar listelendi";
+        internal static string AuthorizationDenied = "Yetkiniz bulunmamaktadır.";
+        internal static string UserRegistered = "Kayıt olundu";
+        internal static string UserNotFound = "Kullanıcı bulunamadı.";
+        internal static string PasswordError = "Şifre hatalı";
+        internal static string SuccessfulLogin = "Giriş başarılı";
+        internal static string UserAlreadyExists = "Kullanıcı zaten mevcut.";
+        internal static string AccessTokenCreated = "Token oluşturuldu";
     }
 }

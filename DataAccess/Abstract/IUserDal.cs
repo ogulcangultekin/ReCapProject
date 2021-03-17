@@ -1,5 +1,6 @@
 ﻿using Core.DataAccess;
 using Core.DataAccess.EntityFramework;
+using Core.Entities.Concrete;
 using DataAccess.Concrete.EntityFramewok.Context;
 using Entities.Concrete;
 using System;
@@ -10,5 +11,6 @@ namespace DataAccess.Abstract
 {
     public interface IUserDal: IEntityRepository<User>
     {
+        List<OperationClaim> GetClaims(User user);
     }
 }

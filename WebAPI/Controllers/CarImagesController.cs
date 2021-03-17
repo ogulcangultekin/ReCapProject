@@ -51,13 +51,13 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add([FromForm]int carId,[FromForm]IFormFile imageFile)
+        public IActionResult Add([FromForm]int carId,[FromForm]IFormFile imagePath)
         {
             try
             {
-                if (imageFile != null && imageFile.Length > 0)
+                if (imagePath != null && imagePath.Length > 0)
                 {
-                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                    string fileName = Guid.NewGuid().ToString() + Path.GetExtension(imagePath.FileName);
                     string filePath = Path.Combine(Directory.GetCurrentDirectory(), imageDirectory, fileName);
 
 
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
                     {
                         using (var fileStream = new FileStream(filePath, FileMode.Create))
                         {
-                            imageFile.CopyTo(fileStream);
+                            imagePath.CopyTo(fileStream);
                         }
 
                         return Ok(result);
